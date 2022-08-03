@@ -1,14 +1,45 @@
 
 
-## Title
+<h1>iPF Fund Request</h1>
 This is REST API project tha help iPF staff to request fund to the accauntant whenever needed
 
-## Requirements
-[MIT license](https://opensource.org/licenses/MIT)
-[MIT license](https://opensource.org/licenses/MIT)
+## Contents
+<ul>
+    <li>Requirements</li>
+    <li>Tools</li>
+    <li>Installation</li>
+</ul>
+<p>1. Requirements</p>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- [PHP >= 8.0.2](http://php.net/)
+- [Laravel Framework](https://github.com/laravel/framework)
+- [Composer](https://getcomposer.org/)
 
-## License
+<p>2. Tools</p>
+<ul>
+    <li>mysql</li>
+    <li>laravel-bugsnag</li>
+    <li>L5-Swagger</li>
+    <li>laravel-passport</li>
+</ul>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p>3. Installation</p>
+
+
+```
+  git clone https://github.com/sydney2323/iPF-Fund-request-App
+```
+
+```
+  composer install
+```
+
+```
+  npm install
+```
+
+## Staring serve
+
+```
+ php artisan serve
+```
