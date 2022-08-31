@@ -170,11 +170,12 @@ return [
                 ],
                 */
 
-                /* Open API 3.0 support
+                // Open API 3.0 support
                 'passport' => [ // Unique name of security
-                    'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                    'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Laravel passport oauth2 security.',
                     'in' => 'header',
+                    'name' => 'Authorization',
                     'scheme' => 'https',
                     'flows' => [
                         "password" => [
@@ -185,13 +186,13 @@ return [
                         ],
                     ],
                 ],
-                'sanctum' => [ // Unique name of security
-                    'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Enter token in format (Bearer <token>)',
-                    'name' => 'Authorization', // The name of the header or query parameter to be used.
-                    'in' => 'header', // The location of the API key. Valid values are "query" or "header".
-                ],
-                */
+                // 'sanctum' => [ // Unique name of security
+                //     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
+                //     'description' => 'Enter token in format (Bearer <token>)',
+                //     'name' => 'Authorization', // The name of the header or query parameter to be used.
+                //     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
+                // ],
+                //*/
             ],
 
             'security' => [
@@ -208,20 +209,21 @@ return [
                     'passport' => []
                     */
                 //Open API 3.0 support
-                'passport' => [ // Unique name of security
-                    'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Laravel passport oauth2 security.',
-                    'in' => 'header',
-                    'scheme' => 'https',
-                    'flows' => [
-                        "password" => [
-                            "authorizationUrl" => config('app.url') . '/oauth/authorize',
-                            "tokenUrl" => config('app.url') . '/oauth/token',
-                            "refreshUrl" => config('app.url') . '/token/refresh',
-                            "scopes" => []
-                        ],
-                    ],
-                ],
+                // 'passport' => [ // Unique name of security
+                //     'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                //     'description' => 'Laravel passport oauth2 security.',
+                //     'in' => 'header',
+                //     'name' => 'Authorization',
+                //     'scheme' => 'https',
+                //     'flows' => [
+                //         "password" => [
+                //             "authorizationUrl" => config('app.url') . '/oauth/authorize',
+                //             "tokenUrl" => config('app.url') . '/oauth/token',
+                //             "refreshUrl" => config('app.url') . '/token/refresh',
+                //             "scopes" => []
+                //         ],
+                //     ],
+                // ],
                 ],
             ],
         ],

@@ -15,71 +15,135 @@
         }
     ],
     "paths": {
+        "/api/Admin/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "user login",
+                "operationId": "1babe736c625a7665caf168fd8443246",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    },
+                                    "password": {
+                                        "description": "password",
+                                        "format": "string",
+                                        "default": "xx"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "description": "token",
+                                            "format": "string",
+                                            "default": "komcqwmcfoqwmfcfoqwkcmwocmqoefmweokmf"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "wrong crediantials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "Invalid email or password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/Admin/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "user register",
-                "operationId": "authRegistered",
+                "operationId": "3e746c359ed9f6e6085f5e3a50d54999",
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
-                                "required": [
-                                    "full_name",
-                                    "phone_no",
-                                    "email",
-                                    "password",
-                                    "role"
-                                ],
                                 "properties": {
                                     "full_name": {
-                                        "type": "full_name"
-                                    },
-                                    "phone_no": {
-                                        "type": "phone_no"
+                                        "description": "full_name",
+                                        "format": "string",
+                                        "default": "example"
                                     },
                                     "email": {
-                                        "type": "email"
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "description": "phone_no",
+                                        "format": "string",
+                                        "default": "07xxxxxxxx"
                                     },
                                     "password": {
-                                        "type": "password"
+                                        "description": "password",
+                                        "format": "string",
+                                        "default": "****"
                                     },
                                     "role": {
-                                        "type": "role"
+                                        "description": "role",
+                                        "format": "string",
+                                        "default": "staff"
                                     }
                                 },
                                 "type": "object"
                             }
-                        },
-                        "application/json": {
-                            "schema": {}
                         }
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Registered Successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
                     "200": {
-                        "description": "Registered Successfully",
+                        "description": "registered",
                         "content": {
                             "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "registered successfully"
+                                        },
+                                        "token": {
+                                            "description": "token",
+                                            "format": "string",
+                                            "default": "ksnfclKFMCLkmcklaCMAKLSCMKLMCKLASCM"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         }
                     },
@@ -90,9 +154,1995 @@
                                 "schema": {}
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/Admin/invitation": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "user invitation",
+                "operationId": "571e9ee7c86fb07a2b467b947882cc03",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "description": "full_name",
+                                        "format": "string",
+                                        "default": "example"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "description": "phone_no",
+                                        "format": "string",
+                                        "default": "07xxxxxxxx"
+                                    },
+                                    "role": {
+                                        "description": "role",
+                                        "format": "string",
+                                        "default": "staff"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "invitated successfully"
+                                        },
+                                        "users": {
+                                            "properties": {
+                                                "full_name": {
+                                                    "description": "full_name",
+                                                    "format": "string",
+                                                    "default": "example"
+                                                },
+                                                "email": {
+                                                    "description": "email",
+                                                    "format": "string",
+                                                    "default": "example@gmail.com"
+                                                },
+                                                "phone_no": {
+                                                    "description": "phone_no",
+                                                    "format": "string",
+                                                    "default": "07xxxxxxxx"
+                                                },
+                                                "role": {
+                                                    "description": "role",
+                                                    "format": "string",
+                                                    "default": "staff"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "400": {
-                        "description": "Bad request"
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/changing-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "user changing-password",
+                "operationId": "7a86df6b23b9915ffaf4bc4a964cea29",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    },
+                                    "current_password": {
+                                        "description": "current_password",
+                                        "format": "string",
+                                        "default": "123"
+                                    },
+                                    "new_password": {
+                                        "description": "new_password",
+                                        "format": "string",
+                                        "default": "123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "password updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "password updated successful."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "wrong crediantials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "wrong email or current password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forgot-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "user forgot-password",
+                "operationId": "5329cdf94f8be3890847c6d96d32f8bd",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "token sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "token has been sent to your email."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reset-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "user reset-password",
+                "operationId": "0b7c832607c45dd154c04fc63a847467",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "new_password": {
+                                        "description": "new_password",
+                                        "format": "string",
+                                        "default": "123"
+                                    },
+                                    "token": {
+                                        "description": "token",
+                                        "format": "string",
+                                        "default": "klSMDCLKmcklaMCLKAMCKLASCMLKMCLKAMCKLAMCKLAMC"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "token sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "You have successfully reset your password, Check your email we have sent the new password."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "token sent",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "invalid token or email."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/activity": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "activity",
+                "operationId": "add0afe6d18103d1e83c96c8d12150c8",
+                "responses": {
+                    "200": {
+                        "description": " list of activities",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/manage-users": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "fetch-users",
+                "operationId": "a4548aa02f4fbca1b0e22d213cbbcccc",
+                "responses": {
+                    "200": {
+                        "description": " list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "create user",
+                "operationId": "4eb0299ff69894a1fd0a39bb2633c029",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "description": "full_name",
+                                        "format": "string",
+                                        "default": "example"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "description": "phone_no",
+                                        "format": "string",
+                                        "default": "07xxxxxxxx"
+                                    },
+                                    "role": {
+                                        "description": "role",
+                                        "format": "string",
+                                        "default": "staff"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "user created successfully"
+                                        },
+                                        "users": {
+                                            "properties": {
+                                                "full_name": {
+                                                    "description": "full_name",
+                                                    "format": "string",
+                                                    "default": "example"
+                                                },
+                                                "email": {
+                                                    "description": "email",
+                                                    "format": "string",
+                                                    "default": "example@gmail.com"
+                                                },
+                                                "phone_no": {
+                                                    "description": "phone_no",
+                                                    "format": "string",
+                                                    "default": "07xxxxxxxx"
+                                                },
+                                                "role": {
+                                                    "description": "role",
+                                                    "format": "string",
+                                                    "default": "staff"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/manage-users/{user_id}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "fetch single user",
+                "operationId": "9e517a52f97849ab54a687666a2c0a84",
+                "responses": {
+                    "200": {
+                        "description": "registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "49erjemfd-fdfnndfne-ennen"
+                                                },
+                                                "full_name": {
+                                                    "description": "full_name",
+                                                    "format": "string",
+                                                    "default": "example"
+                                                },
+                                                "email": {
+                                                    "description": "email",
+                                                    "format": "string",
+                                                    "default": "example@gmail.com"
+                                                },
+                                                "phone_no": {
+                                                    "description": "phone_no",
+                                                    "format": "string",
+                                                    "default": "07xxxxxxxx"
+                                                },
+                                                "role": {
+                                                    "description": "role",
+                                                    "format": "string",
+                                                    "default": "staff"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update user",
+                "operationId": "fd23fd09355e5170acf0f3b607a4eb93",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "description": "full_name",
+                                        "format": "string",
+                                        "default": "example"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "format": "string",
+                                        "default": "example@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "description": "phone_no",
+                                        "format": "string",
+                                        "default": "07xxxxxxxx"
+                                    },
+                                    "role": {
+                                        "description": "role",
+                                        "format": "string",
+                                        "default": "staff"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "user updated successfully"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "kdmvksdm-4324kn-fdv"
+                                                },
+                                                "full_name": {
+                                                    "description": "full_name",
+                                                    "format": "string",
+                                                    "default": "example"
+                                                },
+                                                "email": {
+                                                    "description": "email",
+                                                    "format": "string",
+                                                    "default": "example@gmail.com"
+                                                },
+                                                "phone_no": {
+                                                    "description": "phone_no",
+                                                    "format": "string",
+                                                    "default": "07xxxxxxxx"
+                                                },
+                                                "role": {
+                                                    "description": "role",
+                                                    "format": "string",
+                                                    "default": "staff"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "delete-users",
+                "operationId": "1b0723fbfd913338a7745dc43d14c149",
+                "responses": {
+                    "200": {
+                        "description": " delete user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "user deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "user not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "code",
+                                            "format": "string",
+                                            "default": "404"
+                                        },
+                                        "error": {
+                                            "description": "error",
+                                            "format": "string",
+                                            "default": "user not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/budget": {
+            "get": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "fetch all monthly budget",
+                "operationId": "fba8d2cf76846263fd9badf5ee6417df",
+                "responses": {
+                    "200": {
+                        "description": " list of budget",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "create budget",
+                "operationId": "bfafdd8cdb230e24c7a089673fd27195",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "month": {
+                                        "description": "month",
+                                        "format": "string",
+                                        "default": "2"
+                                    },
+                                    "budget_amount": {
+                                        "description": "budget_amount",
+                                        "format": "string",
+                                        "default": "20000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "budget created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "created successfully"
+                                        },
+                                        "monthlyBudget": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "ovanmdokvnmo-vakv-vks-vka"
+                                                },
+                                                "month": {
+                                                    "description": "month",
+                                                    "format": "string",
+                                                    "default": "2"
+                                                },
+                                                "month_name": {
+                                                    "description": "month_name",
+                                                    "format": "string",
+                                                    "default": "Feb"
+                                                },
+                                                "budget_amount": {
+                                                    "description": "budget_amount",
+                                                    "format": "string",
+                                                    "default": "20000"
+                                                },
+                                                "carry_over": {
+                                                    "description": "carry_over",
+                                                    "format": "string",
+                                                    "default": "0"
+                                                },
+                                                "ending_at": {
+                                                    "description": "ending_at",
+                                                    "format": "string",
+                                                    "default": "29 Feb"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/budget/{budget_id}": {
+            "put": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "update budget",
+                "operationId": "59ade91e32ef29e5c4896088b73250b0",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "budget_amount": {
+                                        "description": "budget_amount",
+                                        "format": "string",
+                                        "default": "20000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "budget update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "update successfully"
+                                        },
+                                        "monthlyBudget": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "ovanmdokvnmo-vakv-vks-vka"
+                                                },
+                                                "month": {
+                                                    "description": "month",
+                                                    "format": "string",
+                                                    "default": "2"
+                                                },
+                                                "month_name": {
+                                                    "description": "month_name",
+                                                    "format": "string",
+                                                    "default": "Feb"
+                                                },
+                                                "budget_amount": {
+                                                    "description": "budget_amount",
+                                                    "format": "string",
+                                                    "default": "20000"
+                                                },
+                                                "carry_over": {
+                                                    "description": "carry_over",
+                                                    "format": "string",
+                                                    "default": "0"
+                                                },
+                                                "ending_at": {
+                                                    "description": "ending_at",
+                                                    "format": "string",
+                                                    "default": "29 Feb"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "delete-budget",
+                "operationId": "39b21cbf5a73fc5848b2079e1506fe65",
+                "responses": {
+                    "200": {
+                        "description": " delete budget",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "budget deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "budget not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "code",
+                                            "format": "string",
+                                            "default": "404"
+                                        },
+                                        "error": {
+                                            "description": "error",
+                                            "format": "string",
+                                            "default": "budget not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/budget-category": {
+            "get": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "fetch all monthly category-budget",
+                "operationId": "6b57c07bf1f1ea1f0c357ee69933f379",
+                "responses": {
+                    "200": {
+                        "description": " list of category-budget",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "create category budget ",
+                "operationId": "2267fd93783cc3cf45aa32d8cce17cac",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "monthly_budget_id": {
+                                        "description": "monthly_budget_id",
+                                        "format": "string",
+                                        "default": "6535eaaa-82be-42fe-bed6-44de8a8ed7da"
+                                    },
+                                    "category_id": {
+                                        "description": "category_id",
+                                        "format": "string",
+                                        "default": "6535eaaa-82be-42fe-bed6-44de8a8ed7da"
+                                    },
+                                    "amount": {
+                                        "description": "amount",
+                                        "format": "string",
+                                        "default": "20000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "budget created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "Category monthly budget created"
+                                        },
+                                        "category_monthly_budget": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "9a9a17d8-ff68-4600-b070-4950f7d8a788"
+                                                },
+                                                "monthly_budget_id": {
+                                                    "description": "monthly_budget_id",
+                                                    "format": "string",
+                                                    "default": "9a9a17d8-ff68-4600-b070-4950f7d8a788"
+                                                },
+                                                "category_id": {
+                                                    "description": "category_id",
+                                                    "format": "string",
+                                                    "default": "9a9a17d8-ff68-4600-b070-4950f7d8a788"
+                                                },
+                                                "amount": {
+                                                    "description": "amount",
+                                                    "format": "string",
+                                                    "default": "20000"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/budget-category/{category_budget_id}": {
+            "put": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "update category budget ",
+                "operationId": "8bcf65044c0dafa7384f92a4f9dc5213",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "amount": {
+                                        "description": "amount",
+                                        "format": "string",
+                                        "default": "20000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "update category budget",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "updated"
+                                        },
+                                        "category_monthly_budget": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "9a9a17d8-ff68-4600-b070-4950f7d8a788"
+                                                },
+                                                "monthly_budget_id": {
+                                                    "description": "monthly_budget_id",
+                                                    "format": "string",
+                                                    "default": "9a9a17d8-ff68-4600-b070-4950f7d8a788"
+                                                },
+                                                "category_id": {
+                                                    "description": "category_id",
+                                                    "format": "string",
+                                                    "default": "9a9a17d8-ff68-4600-b070-4950f7d8a788"
+                                                },
+                                                "amount": {
+                                                    "description": "amount",
+                                                    "format": "string",
+                                                    "default": "20000"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "delete category budget",
+                "operationId": "d172ce87dabb34ebae98de1cce656246",
+                "responses": {
+                    "200": {
+                        "description": " delete category budget",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "category budget deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "category budget not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "code",
+                                            "format": "string",
+                                            "default": "404"
+                                        },
+                                        "error": {
+                                            "description": "error",
+                                            "format": "string",
+                                            "default": "category budget not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/manage-category": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "fetch-categories",
+                "operationId": "56d8a97e0f4479aafc9e81a4b25ce16b",
+                "responses": {
+                    "200": {
+                        "description": " list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "create category",
+                "operationId": "2520bb6a9eb609da5364e1b1d0ec75ab",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "category": {
+                                        "description": "category",
+                                        "format": "string",
+                                        "default": "Transport"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "category created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "created successfully"
+                                        },
+                                        "category": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "ovanmdokvnmo-vakv-vks-vka"
+                                                },
+                                                "category": {
+                                                    "description": "category",
+                                                    "format": "string",
+                                                    "default": "Transport"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/manage-category/{category_id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update category",
+                "operationId": "23bdd107cfb268aa32359ee18957e6b3",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "category": {
+                                        "description": "category",
+                                        "format": "string",
+                                        "default": "Transport"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "user updated successfully"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "kdmvksdm-4324kn-fdv"
+                                                },
+                                                "category": {
+                                                    "description": "category",
+                                                    "format": "string",
+                                                    "default": "Transport"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "delete-category",
+                "operationId": "a144aea4b20e3a948324624088bde8bd",
+                "responses": {
+                    "200": {
+                        "description": " delete category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "category deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "category not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "code",
+                                            "format": "string",
+                                            "default": "404"
+                                        },
+                                        "error": {
+                                            "description": "error",
+                                            "format": "string",
+                                            "default": "category not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/manage-project": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "fetch projects",
+                "operationId": "fde5d20f3cae2dd88da5b69b9cb34cea",
+                "responses": {
+                    "200": {
+                        "description": " list of projects",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "create project",
+                "operationId": "e8f9090772bc68628494c4251e473e13",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "project": {
+                                        "description": "project",
+                                        "format": "string",
+                                        "default": "Transport"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "project created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "created successfully"
+                                        },
+                                        "project": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "ovanmdokvnmo-vakv-vks-vka"
+                                                },
+                                                "project": {
+                                                    "description": "project",
+                                                    "format": "string",
+                                                    "default": "Transport"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Admin/manage-project/{project_id}": {
+            "put": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update project",
+                "operationId": "bd8bcc346c424f8cab06eb91a84407b8",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "project": {
+                                        "description": "project",
+                                        "format": "string",
+                                        "default": "Transport"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "user updated successfully"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "kdmvksdm-4324kn-fdv"
+                                                },
+                                                "project": {
+                                                    "description": "project",
+                                                    "format": "string",
+                                                    "default": "Transport"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "delete-project",
+                "operationId": "7d418e725b709aa98acf3972db3799b8",
+                "responses": {
+                    "200": {
+                        "description": " delete project",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "project deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "project not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "code",
+                                            "format": "string",
+                                            "default": "404"
+                                        },
+                                        "error": {
+                                            "description": "error",
+                                            "format": "string",
+                                            "default": "project not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/fund": {
+            "get": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "fetch request",
+                "operationId": "48c4a8ad545a8b623cad59f1bafe0dc4",
+                "responses": {
+                    "200": {
+                        "description": " list of request",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "make request ",
+                "operationId": "b305495f1e5399313a1e0e41cec19fad",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "category_id": {
+                                        "description": "category_id",
+                                        "format": "string",
+                                        "default": "515f021c-d3a0-464f-af72-bb0a08140d7f"
+                                    },
+                                    "project_id": {
+                                        "description": "project_id",
+                                        "format": "string",
+                                        "default": "515f021c-d3a0-464f-af72-bb0a08140d7f"
+                                    },
+                                    "reason": {
+                                        "description": "reason",
+                                        "format": "string",
+                                        "default": "kawa kwa kwa wka"
+                                    },
+                                    "amount": {
+                                        "description": "amount",
+                                        "format": "string",
+                                        "default": "20000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "request created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "Your request is sent please wait for feedback"
+                                        },
+                                        "request": {
+                                            "properties": {
+                                                "reason": {
+                                                    "description": "reason",
+                                                    "format": "string",
+                                                    "default": ""
+                                                },
+                                                "month_name": {
+                                                    "description": "month_name",
+                                                    "format": "string",
+                                                    "default": "Jan"
+                                                },
+                                                "catrgory_id": {
+                                                    "description": "catrgory_id",
+                                                    "format": "string",
+                                                    "default": "a2a0f2e5-f766-4267-91b2-c7ef00a05177"
+                                                },
+                                                "product_id": {
+                                                    "description": "product_id",
+                                                    "format": "string",
+                                                    "default": "a2a0f2e5-f766-4267-91b2-c7ef00a05177"
+                                                },
+                                                "amount": {
+                                                    "description": "amount",
+                                                    "format": "string",
+                                                    "default": "20000"
+                                                },
+                                                "staff_id": {
+                                                    "description": "staff_id",
+                                                    "format": "string",
+                                                    "default": "Jan"
+                                                },
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "a2a0f2e5-f766-4267-91b2-c7ef00a05177"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required"
+                    }
+                }
+            }
+        },
+        "/api/fund/{request_id}": {
+            "put": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "update request ",
+                "operationId": "cd642601f48d4a43f6d688e9cbb16a2e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "category_id": {
+                                        "description": "category_id",
+                                        "format": "string",
+                                        "default": "515f021c-d3a0-464f-af72-bb0a08140d7f"
+                                    },
+                                    "project_id": {
+                                        "description": "project_id",
+                                        "format": "string",
+                                        "default": "515f021c-d3a0-464f-af72-bb0a08140d7f"
+                                    },
+                                    "reason": {
+                                        "description": "reason",
+                                        "format": "string",
+                                        "default": "kawa kwa kwa wka"
+                                    },
+                                    "amount": {
+                                        "description": "amount",
+                                        "format": "string",
+                                        "default": "20000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "request updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "Your request is updated"
+                                        },
+                                        "request": {
+                                            "properties": {
+                                                "reason": {
+                                                    "description": "reason",
+                                                    "format": "string",
+                                                    "default": ""
+                                                },
+                                                "month_name": {
+                                                    "description": "month_name",
+                                                    "format": "string",
+                                                    "default": "Jan"
+                                                },
+                                                "catrgory_id": {
+                                                    "description": "catrgory_id",
+                                                    "format": "string",
+                                                    "default": "a2a0f2e5-f766-4267-91b2-c7ef00a05177"
+                                                },
+                                                "product_id": {
+                                                    "description": "product_id",
+                                                    "format": "string",
+                                                    "default": "a2a0f2e5-f766-4267-91b2-c7ef00a05177"
+                                                },
+                                                "amount": {
+                                                    "description": "amount",
+                                                    "format": "string",
+                                                    "default": "20000"
+                                                },
+                                                "staff_id": {
+                                                    "description": "staff_id",
+                                                    "format": "string",
+                                                    "default": "Jan"
+                                                },
+                                                "id": {
+                                                    "description": "id",
+                                                    "format": "string",
+                                                    "default": "a2a0f2e5-f766-4267-91b2-c7ef00a05177"
+                                                },
+                                                "created_at": {
+                                                    "description": "created_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "description": "updated_at",
+                                                    "format": "string",
+                                                    "default": "2022-08-30T06:55:08.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Staff"
+                ],
+                "summary": "delete-request",
+                "operationId": "28adf80ea2a3dfaa827c3cbd6960c3ab",
+                "responses": {
+                    "200": {
+                        "description": " delete request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "Your request is deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "request not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "code",
+                                            "format": "string",
+                                            "default": "404"
+                                        },
+                                        "error": {
+                                            "description": "error",
+                                            "format": "string",
+                                            "default": "request not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/request": {
+            "get": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "fetch all user request",
+                "operationId": "079093212e36208796015fd44332f860",
+                "responses": {
+                    "200": {
+                        "description": " list of request",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/request/accept/{request_id}": {
+            "patch": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "accept request",
+                "operationId": "822a4d89b598535497afe23bc865af1e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "is_receipt_required": {
+                                        "description": "is_receipt_required",
+                                        "format": "string",
+                                        "default": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "request accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "request accepted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/finance/request/reject/{request_id}": {
+            "patch": {
+                "tags": [
+                    "Finance"
+                ],
+                "summary": "reject request",
+                "operationId": "5338f5ae7c35918561dea31018d6cfb6",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "reject_reason": {
+                                        "description": "reject_reason",
+                                        "format": "string",
+                                        "default": "nooo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "request rejected",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "message",
+                                            "format": "string",
+                                            "default": "request rejected"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Fields required",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
@@ -100,21 +2150,11 @@
     },
     "components": {
         "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "name": "bearerAuth",
-                "in": "header",
-                "bearerFormat": "JWT",
-                "scheme": "bearer"
-            }
-        }
-    },
-    "security": [
-        {
             "passport": {
-                "type": "oauth2",
+                "type": "apiKey",
                 "description": "Laravel passport oauth2 security.",
                 "in": "header",
+                "name": "Authorization",
                 "scheme": "https",
                 "flows": {
                     "password": {
@@ -126,5 +2166,5 @@
                 }
             }
         }
-    ]
+    }
 }

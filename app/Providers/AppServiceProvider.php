@@ -3,9 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
+use Laravel\Passport\Client;
+use App\Traits\UUID;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
+    //use UUID;
     /**
      * Register any application services.
      *
@@ -13,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Passport::ignoreMigrations();
     }
 
     /**
@@ -23,6 +28,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Client::creating(function (Client $client) {
+            $client->incrementing = false;
+            $client->id = Str::uuid()->toString();
+        });
+        
+        Client::retrieved(function (Client $client) {
+            $client->incrementing = false;
+        });
     }
+    
 }

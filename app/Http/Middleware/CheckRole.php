@@ -31,6 +31,7 @@ class CheckRole
         //     return response(json_encode(['error' => 'unauthenticated']), 401);
         // }
         
+    
         return $next($request);
     }
 }

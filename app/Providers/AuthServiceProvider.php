@@ -37,6 +37,10 @@ class AuthServiceProvider extends ServiceProvider
                 'staff' => 'send/view request',
                 'finance' => 'budget/accept request'
             ]);
+
+            Passport::setDefaultScope([
+                'basic'
+            ]);
         }
     }
 }

@@ -19,15 +19,6 @@ use Illuminate\Routing\Controller as BaseController;
     *      url=L5_SWAGGER_CONST_HOST,
     *      description="local Server"
     * )
-
-    *   @OA\SecurityScheme(
-    *       securityScheme="bearerAuth",
-    *       in="header",
-    *       name="bearerAuth",
-    *       type="http",
-    *       scheme="bearer",
-    *       bearerFormat="JWT",
-    *    ),
      */
 
 

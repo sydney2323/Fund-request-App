@@ -47,4 +47,12 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    // public function render(){
+    //     if ($exception instanceof MissingScopeException && $request->wantsJson()){
+    //         return response()->json([
+    //             'error' => 'forbidden',
+    //         ], 403);
+    //     }
+    // }
 }
