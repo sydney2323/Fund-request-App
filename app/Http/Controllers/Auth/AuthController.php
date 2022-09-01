@@ -11,12 +11,25 @@ use App\Models\User;
 use Validator;
 use Auth;
 use Spatie\Activitylog\Models\Activity;
-
+use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+
+    public function getCache($key){
+        $data = Cache::get($key);
+        if ($data) {
+            return response([
+                'user' =>  $data
+            ]);
+        }
+        return response([
+            'code' => '404',
+            'error' => 'Not found'
+        ]);
+    }
     
    /**
         * @OA\Post(
@@ -96,10 +109,14 @@ class AuthController extends Controller
     
             $user = Auth::user();
 
-            $token = $user->createToken('iPF-login', [$user->role]);
+            $token = $user->createToken('iPF-login', [$user->role])->accessToken;
+
+            $user['token'] = $token;
+
+            Cache::put('user',  $user, $seconds = 60*2);
     
             return response()->json([
-                'token' => $token->accessToken,
+                'user' => $user,
                 'code' => 200
             ]);
         }else {
