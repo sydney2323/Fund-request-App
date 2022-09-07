@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Illuminate\Foundation\Exceptions\Handler;
+use Throwable;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -11,20 +13,23 @@ use App\Models\User;
 use Validator;
 use Auth;
 use Spatie\Activitylog\Models\Activity;
-use Illuminate\Support\Facades\Cache;
-
+//use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+//use Exception;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
 
     public function getCache($key){
-        $data = Cache::get($key);
+        $data = Redis::get($key);
         if ($data) {
-            return response([
-                'user' =>  $data
-            ]);
+            return response()->json([
+                'user' => $data
+            ],200);
         }
+       // json_encode($yourdata, JSON_UNESCAPED_SLASHES);
         return response([
             'code' => '404',
             'error' => 'Not found'
@@ -84,47 +89,45 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'password' => 'required'
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'code' => 404,
-                'error' => $validator->errors()
+            $validator = Validator::make($request->all(), [
+                'email' => 'required',
+                'password' => 'required'
             ]);
-        }
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => $validator->errors()
+                ],404);
+            }
+        
+            if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
     
-        if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
-
-            // activity()
-            // ->withProperties(Auth::user())
-            // ->event('login')
-            // ->log('user logged in');
-
-            $event = 'login';
-            $description =  Auth::user()->full_name.' logged in.';
-            \LogActivity::addToLog($event, $description);
+                // activity()
+                // ->withProperties(Auth::user())
+                // ->event('login')
+                // ->log('user logged in');
     
-            $user = Auth::user();
-
-            $token = $user->createToken('iPF-login', [$user->role])->accessToken;
-
-            $user['token'] = $token;
-
-            Cache::put('user',  $user, $seconds = 60*2);
+                $event = 'login';
+                $description =  Auth::user()->full_name.' logged in.';
+                \LogActivity::addToLog($event, $description);
+        
+                $user = Auth::user();
     
-            return response()->json([
-                'user' => $user,
-                'code' => 200
-            ]);
-        }else {
-            return response()->json([
-                'message' => 'Invalid email or password',
-                'code'  => 403
-            ]);
-        }
+                $token = $user->createToken('iPF-login', [$user->role])->accessToken;
+    
+                $user['token'] = $token;
+
+                Redis::set('user', $user);
+        
+                return response()->json([
+                    'user' => $user
+                ],200);
+            }else {
+                return response()->json([
+                    'message' => 'Invalid email or password'
+                ],401);
+            }
+
+       
     }
     
 
@@ -143,7 +146,7 @@ class AuthController extends Controller
         
         return response()->json([
             'message' => 'Successfully logged out'
-        ]);
+        ],200);
     }
 
 
@@ -224,9 +227,8 @@ class AuthController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'code' => 404,
                 'error' => $validator->errors()
-            ]);
+            ],404);
         }
 
         $user =[
@@ -253,7 +255,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'registered successfully',
             'token' => $token,
-        ]);
+        ],200);
     }
 
       /**
@@ -355,9 +357,8 @@ class AuthController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'code' => 404,
                 'error' => $validator->errors()
-            ]);
+            ],404);
         }
 
         $password = Str::random(6);
@@ -465,9 +466,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'code' => 404,
                 'error' => $validator->errors()
-            ]);
+            ],404);
         }
 
         
@@ -488,14 +488,13 @@ class AuthController extends Controller
         //     \LogActivity::addToLog($event, $description);
 
             return response()->json([
-                'message' => 'password updated successful',
-                'code' => '200'
-            ]);
+                'message' => 'password updated successful'
+            ],200);
 
         }else {
             return response()->json([
                 'message' => 'wrong email or current password'
-            ]);
+            ],404);
         }
     }
 
@@ -543,9 +542,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'code' => 404,
                 'error' => $validator->errors()
-            ]);
+            ],404);
         }
 
         $token = Str::random(64);
@@ -554,7 +552,7 @@ class AuthController extends Controller
             ['email' => $request->email, 'token' => $token]
         );
 
-        return response([ 'message' => 'token has been sent to your email']);
+        return response([ 'message' => 'token has been sent to your email'],200);
 
     }
 
@@ -622,9 +620,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'code' => 404,
                 'error' => $validator->errors()
-            ]);
+            ],404);
         }
 
        $check = DB::table('password_resets')->where('token','=',$request->token)->first();
@@ -645,9 +642,9 @@ class AuthController extends Controller
             Mail::raw($text, function ($message) use($email){
                 $message->to($email);
             });
-            return response([ 'message' => 'You have successfully reset your password, Check your email we have sent the new password']);
+            return response(200,[ 'message' => 'You have successfully reset your password, Check your email we have sent the new password']);
         }else {
-            return response([ 'message' => 'invalid email']);
+            return response(200,[ 'message' => 'invalid email']);
         }
            
        } else {
@@ -680,7 +677,7 @@ class AuthController extends Controller
  
          return response()->json([
              'logs' => $logs
-         ]);
+         ],200);
      }
 
     

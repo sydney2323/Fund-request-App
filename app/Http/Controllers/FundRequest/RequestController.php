@@ -32,7 +32,7 @@ class RequestController extends Controller
        
             return response([
                 'request' => $requests
-            ]);
+            ],200);
        
     }
 
@@ -165,7 +165,7 @@ class RequestController extends Controller
             'amount' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],404);
         }
 
         $category = Category::where('id','=',$request->category_id)->first();
@@ -173,16 +173,14 @@ class RequestController extends Controller
         
         if (!$category) {
             return response([
-                'code' => '404',
                 'error' => 'category not found'
-            ]);
+            ],404);
         }
 
         if (!$project) {
             return response([
-                'code' => '404',
                 'error' => 'product not found'
-            ]);
+            ],404);
         }
 
         $staff_id = Auth::user()->id;
@@ -198,10 +196,9 @@ class RequestController extends Controller
             'staff_id' => $staff_id
         ]);
         return response([
-            'code' => 200,
             'message' => 'Your request is sent please wait for feedback',
             'request' => $request
-        ]);
+        ],200);
     }
 
          /**
@@ -332,7 +329,7 @@ class RequestController extends Controller
             'amount' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],404);
         }
 
         $userRequest = UserRequest::where('id','=',$id)->first();
@@ -346,14 +343,12 @@ class RequestController extends Controller
                 'reject_reason' => null
             ]);
             return response([
-                'code' => 200,
                 'message' => 'Your request is updated please wait for feedback'
-            ]);
+            ],200);
         }
         return response([
-            'code' => '404',
             'error' => 'request not found'
-        ]);
+        ],404);
 
         
     }
@@ -406,19 +401,16 @@ class RequestController extends Controller
         if ($userRequest && $userRequest->status == 0) {
             $userRequest->delete();
             return response([
-                'code' => 200,
                 'message' => 'Your request is deleted.'
-            ]);
+            ],200);
         }elseif($userRequest && $userRequest->status == 1) {
             return response([
-                'code' => 200,
                 'message' => 'Your request is cant be deleted since its accepted.'
-            ]);
+            ],400);
         }else {
         return response([
-            'code' => '404',
             'error' => 'request not found'
-        ]);
+        ],404);
         }
     }
 
