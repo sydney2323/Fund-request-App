@@ -43,10 +43,16 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        // $this->reportable(function (Throwable $e) {
+        //     //
+        // });
+        $this->renderable(function (Throwable $e) {
+            
+                return response(['error' => $e->getMessage() ], $e->getCode() ?: 500);
+           
         });
     }
+    
 
     // public function render(){
     //     if ($exception instanceof MissingScopeException && $request->wantsJson()){
@@ -54,5 +60,5 @@ class Handler extends ExceptionHandler
     //             'error' => 'forbidden',
     //         ], 403);
     //     }
-    // }
+    // }  mysql://ba1bba87c885dc:88718f26@us-cdbr-east-06.cleardb.net/heroku_804074f8c90c85a?reconnect=true
 }
