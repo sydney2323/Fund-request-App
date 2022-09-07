@@ -38,9 +38,8 @@ class AuthTest extends TestCase
         $loginData = [];
 
         $this->postJson('api/Admin/login', $loginData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
-                "code" => 404,
                 "error" => [
                     "email" => ["The email field is required."],
                     "password" => ["The password field is required."]
@@ -57,9 +56,8 @@ class AuthTest extends TestCase
         ];
 
         $this->postJson('api/Admin/login', $loginData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
-                "code" => 404,
                 "error" => [
                     "password" => ["The password field is required."]
                 ]
@@ -74,10 +72,9 @@ class AuthTest extends TestCase
         ];
 
         $this->postJson('api/Admin/login', $loginData)
-            ->assertStatus(200)
+            ->assertStatus(401)
             ->assertJson([
-                'message' =>  'Invalid email or password',
-                'code' =>  '403'
+                'message' =>  'Invalid email or password'
             ]);
     }
 
@@ -93,8 +90,7 @@ class AuthTest extends TestCase
         $this->postJson('api/Admin/login', $loginData)
             ->assertStatus(200)
             ->assertJsonStructure([
-                "token",
-                "code"
+                "user"
             ]);
     }
 
@@ -108,9 +104,8 @@ class AuthTest extends TestCase
         $registerData = [];
 
         $response = $this->postJson('/api/Admin/register',$registerData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
-                "code" => 404,
                 "error" => [
                     "full_name" => ["The full name field is required."],
                     "phone_no" => ["The phone no field is required."],
@@ -132,9 +127,8 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson('/api/Admin/register',$registerData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
-                "code" => 404,
                 "error" => [
                     "email" => ["The email field is required."],
                     "password" => ["The password field is required."],
@@ -174,9 +168,8 @@ class AuthTest extends TestCase
         $invitationData = [];
 
         $response = $this->postJson('/api/Admin/invitation',$invitationData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
-                "code" => 404,
                 "error" => [
                     "full_name" => ["The full name field is required."],
                     "phone_no" => ["The phone no field is required."],
@@ -197,9 +190,8 @@ class AuthTest extends TestCase
         ];
 
         $response = $this->postJson('/api/Admin/invitation',$invitationData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
-                "code" => 404,
                 "error" => [
                     "email" => ["The email field is required."],
                     "role" => ["The role field is required."]
@@ -249,9 +241,8 @@ public function test_required_fields_for_changing_password()
     $changingPasswordData = [];
 
     $response = $this->postJson('/api/changing-password',$changingPasswordData)
-        ->assertStatus(200)
+        ->assertStatus(404)
         ->assertJson([
-            "code" => 404,
             "error" => [
                 "email" => ["The email field is required."],
                 "current_password" => ["The current password field is required."],
@@ -272,9 +263,8 @@ public function test_required_fields_for_changing_password_email_and_current_pas
     ];
 
     $response = $this->postJson('/api/changing-password',$changingPasswordData)
-        ->assertStatus(200)
+        ->assertStatus(404)
         ->assertJson([
-            "code" => 404,
             "error" => [
                 "new_password" => ["The new password field is required."]
             ]
@@ -294,7 +284,7 @@ public function test_changing_password_for_invalid_email_and_current_password()
     ];
 
     $response = $this->postJson('/api/changing-password',$changingPasswordData)
-        ->assertStatus(200)
+        ->assertStatus(404)
         ->assertJson([
             'message' => 'wrong email or current password'
         ]);
@@ -303,7 +293,7 @@ public function test_changing_password_for_invalid_email_and_current_password()
 public function test_successful_changing_password()
 { 
     $user = $this->create_user_with_admin_role();
-    //Passport::actingAs($user, [$user->role]);
+    Passport::actingAs($user, [$user->role]);
 
     $changingPasswordData = [
         "email" => $user->email,
@@ -314,8 +304,7 @@ public function test_successful_changing_password()
     $response = $this->postJson('/api/changing-password',$changingPasswordData)
         ->assertStatus(200)
         ->assertJson([
-            'message' => 'password updated successful',
-            'code' => '200'
+            'message' => 'password updated successful'
         ]);
 }
 //=========================== forgot-password =========================================
@@ -329,9 +318,8 @@ public function test_required_fields_for_forgot_password()
     $forgotPasswordData = [];
 
     $response = $this->postJson('/api/forgot-password',$forgotPasswordData)
-        ->assertStatus(200)
+        ->assertStatus(404)
         ->assertJson([
-            "code" => 404,
             "error" => [
                 "email" => ["The email field is required."]
             ]
@@ -366,9 +354,8 @@ public function test_required_fields_for_reset_password()
     $resetPasswordData = [];
 
     $response = $this->postJson('/api/reset-password',$resetPasswordData)
-        ->assertStatus(200)
+        ->assertStatus(404)
         ->assertJson([
-            "code" => 404,
             "error" => [
                 "token" => ["The token field is required."],
                 "new_password" => ["The new password field is required."]

@@ -60,7 +60,7 @@ class FundTest extends TestCase
         $requestData = [];
 
         $this->postJson('api/fund', $requestData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
                 "error" => [
                     "reason" => ["The reason field is required."],
@@ -82,7 +82,7 @@ class FundTest extends TestCase
         ];
 
         $this->postJson('api/fund', $requestData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
                 "error" => [
                     "category_id" => ["The category id field is required."],
@@ -102,7 +102,7 @@ class FundTest extends TestCase
         ];
 
         $this->postJson('api/fund', $requestData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
                 "error" => [
                     "reason" => ["The reason field is required."],
@@ -124,7 +124,7 @@ class FundTest extends TestCase
         ];
 
         $this->postJson('api/fund', $requestData)
-            ->assertStatus(200);
+            ->assertStatus(404);
     }
 
     public function test_fetch_all_request()
@@ -148,7 +148,7 @@ class FundTest extends TestCase
         
 
         $this->putJson('api/fund/'.$request_id->id, $requestData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
                 "error" => [
                     "reason" => ["The reason field is required."],
@@ -173,7 +173,7 @@ class FundTest extends TestCase
         ];
 
         $this->putJson('api/fund/'.$request_id->id, $requestData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
                 "error" => [
                     "category_id" => ["The category id field is required."],
@@ -194,7 +194,7 @@ class FundTest extends TestCase
         ];
 
         $this->putJson('api/fund/'.$request_id->id, $requestData)
-            ->assertStatus(200)
+            ->assertStatus(404)
             ->assertJson([
                 "error" => [
                     "reason" => ["The reason field is required."],
