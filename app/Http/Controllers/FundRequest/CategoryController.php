@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FundRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Redis;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -23,8 +24,18 @@ class CategoryController extends Controller
         */
     public function index()
     {
-        $categories = Category::all();
-        return response(['categories' => $categories]);
+        $data = Redis::get('categories');
+        if ($data) {
+            return response()->json([
+                'categories' => json_decode($data)
+            ],200);
+        }else {
+            $categories = Category::all();
+            Redis::set('categories', $categories , 'EX', 60);
+            return response()->json([
+                'categories' => $categories
+            ],200);
+        }
     }
         /**
         * @OA\Post(
@@ -100,15 +111,14 @@ class CategoryController extends Controller
             'category' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
 
         $category = Category::create(["category" => $request->category]);
         return response([
-            'code' => 200,
             'message' => 'created successfully',
             'category' => $category
-        ]);
+        ],200);
     }
     /**
      * Display the specified resource.
@@ -120,12 +130,11 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if ($category) {
-            return response(['category' => $category]);
+            return response(['category' => $category],200);
         }
         return response([
-            'code' => '404',
             'error' => 'Category not found'
-        ]);
+        ],404);
     }
  /**
         * @OA\Put(
@@ -202,17 +211,16 @@ class CategoryController extends Controller
             'category' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
         $category = Category::find($id);
         if ($category) {
             $category->update($data);
-            return response(['message' => 'updated successfully','category' => $category]);
+            return response(['message' => 'updated successfully','category' => $category],200);
         }
         return response([
-            'code' => '404',
             'error' => 'category not found'
-        ]);
+        ],404);
     }
    /**
         * @OA\Delete(
@@ -261,11 +269,10 @@ class CategoryController extends Controller
         $category = Category::find($id);
         if ($category) {
             $category->delete();
-            return response(['message' => 'category deleted successfully']);
+            return response(['message' => 'category deleted successfully'],200);
         }
         return response([
-            'code' => '404',
             'error' => 'user not found'
-        ]);
+        ],404);
     }  
 }

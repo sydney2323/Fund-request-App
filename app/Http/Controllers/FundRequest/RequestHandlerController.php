@@ -4,8 +4,10 @@ namespace App\Http\Controllers\FundRequest;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserRequest;
+use App\Models\MonthlyUsedBudget;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Redis;
 
 class RequestHandlerController extends Controller
 {
@@ -23,20 +25,29 @@ class RequestHandlerController extends Controller
         */
     public function index()
     {
-        $requests = UserRequest::all();
-        return response(['requests' => $requests]);
+        $data = Redis::get('requests');
+        if ($data) {
+            return response()->json([
+                'requests' => json_decode($data)
+            ],200);
+        }else {
+            $requests = UserRequest::all();
+            Redis::set('requests', $requests , 'EX', 60);
+            return response()->json([
+                'requests' => $requests
+            ],200);
+        }
     }
 
     public function show($id)
     {
         $userRequest = UserRequest::where('id','=',$id)->first();
         if ($userRequest) {
-            return response(['request' => $userRequest]);
+            return response(['request' => $userRequest],200);
         }
         return response([
-            'code' => '404',
             'error' => 'request not found'
-        ]);
+        ],404);
     }
 
   /**
@@ -83,7 +94,7 @@ class RequestHandlerController extends Controller
             'is_receipt_required' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
 
         $userRequest = UserRequest::where('id','=',$id)->first();
@@ -94,14 +105,12 @@ class RequestHandlerController extends Controller
                 'reject_reason' => null
             ]);
             return response([
-                'code' => 200,
                 'message' => 'request accepted'
-            ]);
+            ],200);
         }
         return response([
-            'code' => '404',
             'error' => 'request not found'
-        ]);
+        ],404);
     }
 
     
@@ -150,7 +159,7 @@ class RequestHandlerController extends Controller
             'reject_reason' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
 
         $userRequest = UserRequest::where('id','=',$id)->first();
@@ -160,38 +169,12 @@ class RequestHandlerController extends Controller
                 'reject_reason' => $request->reason
             ]);
             return response([
-                'code' => 200,
                 'message' => 'request rejected'
-            ]);
+            ],200);
         }
         return response([
-            'code' => '404',
             'error' => 'request not found'
-        ]);
-    }
-
-    public function showRequest($id){
-        $userRequest = UserRequest::findOrFail($id);
-        return view('finance.view-request',compact('userRequest'));
-    }
-
-    public function createMonthlyUsedBudget($request_id){
-
-       $userRequest = UserRequest::where('id','=',$request_id)->get();  
-       $category = Category::where('category','=',$userRequest[0]->category)->get();
-       $categoryMonthlyBudget = CategoryMonthlyBudget::where('id','=',$category[0]->id)->get(); 
-       $data = [
-        'month_name' => $userRequest[0]->month_name,
-        'staff_email' => $userRequest[0]->staff_email,
-        'category_name' => $userRequest[0]->category,
-        'category_id' => $categoryMonthlyBudget[0]->category_id,
-        'category_user_amount' => $userRequest[0]->amount,
-        'project_name' => $userRequest[0]->project,
-       ];
-
-       $save = MonthlyUsedBudget::create($data);   
-       return $save;
-
+        ],404);
     }
 
 }

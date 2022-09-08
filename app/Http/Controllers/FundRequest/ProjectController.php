@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FundRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Redis;
 use App\Models\Project;
 
 class ProjectController extends Controller
@@ -23,8 +24,18 @@ class ProjectController extends Controller
         */
     public function index()
     {
-        $projects = Project::all();
-        return response(['projects' => $projects]);
+        $data = Redis::get('projects');
+        if ($data) {
+            return response()->json([
+                'projects' => json_decode($data)
+            ],200);
+        }else {
+            $projects = Project::all();
+            Redis::set('projects', $projects , 'EX', 60);
+            return response()->json([
+                'projects' => $projects
+            ],200);
+        }
     }
      /**
         * @OA\Post(
@@ -100,15 +111,14 @@ class ProjectController extends Controller
             'project' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
 
         $project = Project::create(["project" => $request->project]);
         return response([
-            'code' => 200,
             'message' => 'created successfully',
             'project' => $project
-        ]);
+        ],200);
     }
     /**
      * Display the specified resource.
@@ -120,12 +130,11 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         if ($project) {
-            return response(['project' => $project]);
+            return response(['project' => $project],200);
         }
         return response([
-            'code' => '404',
             'error' => 'Project not found'
-        ]);
+        ],404);
     }
 /**
         * @OA\Put(
@@ -201,17 +210,16 @@ class ProjectController extends Controller
             'project' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
         $project = Project::find($id);
         if ($project) {
             $project->update($data);
-            return response(['message' => 'updated successfully','project' => $project]);
+            return response(['message' => 'updated successfully','project' => $project],200);
         }
         return response([
-            'code' => '404',
             'error' => 'Project not found'
-        ]);
+        ],404);
     }
  /**
         * @OA\Delete(
@@ -260,11 +268,10 @@ class ProjectController extends Controller
         $project = Project::find($id);
         if ($project) {
             $project->delete();
-            return response(['message' => 'Project deleted successfully']);
+            return response(['message' => 'Project deleted successfully'],200);
         }
         return response([
-            'code' => '404',
             'error' => 'user not found'
-        ]);
+        ],404);
     }  
 }

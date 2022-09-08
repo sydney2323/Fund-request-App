@@ -9,6 +9,7 @@ Use \Carbon\Carbon;
 use App\Models\UserRequest;
 use App\Models\Project;
 use App\Models\Category;
+use Illuminate\Support\Facades\Redis;
 use App\Models\MonthlyBudget;
 use Auth;
 
@@ -28,11 +29,19 @@ class RequestController extends Controller
         */
     public function index(){
         $id = Auth::user()->id;
-        $requests = UserRequest::where('staff_id','=',$id)->get();
-       
-            return response([
-                'request' => $requests
+
+        $data = Redis::get('requests');
+        if ($data) {
+            return response()->json([
+                'requests' => json_decode($data)
             ],200);
+        }else {
+            $requests = UserRequest::where('staff_id','=',$id)->get();
+            Redis::set('requests', $requests , 'EX', 60);
+            return response()->json([
+                'requests' => $requests
+            ],200);
+        }
        
     }
 
@@ -165,7 +174,7 @@ class RequestController extends Controller
             'amount' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()],404);
+            return response(['error' => $validator->errors()],400);
         }
 
         $category = Category::where('id','=',$request->category_id)->first();
@@ -329,7 +338,7 @@ class RequestController extends Controller
             'amount' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()],404);
+            return response(['error' => $validator->errors()],400);
         }
 
         $userRequest = UserRequest::where('id','=',$id)->first();

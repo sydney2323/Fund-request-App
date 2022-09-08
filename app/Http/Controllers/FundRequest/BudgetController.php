@@ -11,6 +11,8 @@ use App\Models\Category;
 use App\Models\CategoryMonthlyBudget;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class BudgetController extends Controller
 {
@@ -29,8 +31,19 @@ class BudgetController extends Controller
         */
     public function index()
     {
-        $monthlyBudgets = MonthlyBudget::all();
-        return response(['monthlyBudgets' => $monthlyBudgets]);
+        $data = Redis::get('monthlyBudgets');
+        if ($data) {
+            return response()->json([
+                'monthlyBudgets' => json_decode($data)
+            ],200);
+        }else {
+            $monthlyBudgets = MonthlyBudget::all();
+            Redis::set('monthlyBudgets', $monthlyBudgets , 'EX', 60*2);
+            return response()->json([
+                'monthlyBudgets' => $monthlyBudgets
+            ],200);
+        }
+        //return response(['monthlyBudgets' => $monthlyBudgets],200);
     }
      /**
         * @OA\Post(
@@ -141,7 +154,7 @@ class BudgetController extends Controller
             'budget_amount' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
 
         $month_name = Carbon::create()->month($request->month)->format('F');
@@ -278,7 +291,7 @@ class BudgetController extends Controller
             'budget_amount' => 'required'
         ]);
         if($validator->fails()){
-            return response(['error' => $validator->errors()]);
+            return response(['error' => $validator->errors()],400);
         }
         $monthlyBudget = MonthlyBudget::find($id);
         if ($monthlyBudget) {

@@ -9,6 +9,7 @@ use App\Models\MonthlyBudget;
 use App\Models\Category;
 use App\Models\CategoryMonthlyBudget;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class CategoryBudgetController extends Controller
 {
@@ -25,15 +26,23 @@ class CategoryBudgetController extends Controller
         * )
         */
     public function index(Request $request){
-   
-        $categoryMonthlyBudgets = DB::table('categories')
+
+        $data = Redis::get('categoryMonthlyBudgets');
+        if ($data) {
+            return response()->json([
+                'categoryMonthlyBudgets' => json_decode($data)
+            ],200);
+        }else {
+            $categoryMonthlyBudgets = DB::table('categories')
         ->join('category_monthly_budgets', function ($join){
             $join->on('categories.id', '=', 'category_monthly_budgets.category_id');
         })
         ->get();
-        return response([
-            'category_monthly_budgets' => $categoryMonthlyBudgets
-        ]);
+            Redis::set('categoryMonthlyBudgets', $categoryMonthlyBudgets , 'EX', 60);
+            return response()->json([
+                'categoryMonthlyBudgets' => $categoryMonthlyBudgets
+            ],200);
+        }
     }
 
     public function show($id)
@@ -41,9 +50,8 @@ class CategoryBudgetController extends Controller
         $categoryMonthlyBudget = CategoryMonthlyBudget::where('id','=',$id)->first();
         if (!$categoryMonthlyBudget) {
             return response([
-                'code' => '404',
                 'error' => 'category Monthly Budget not found'
-            ]);
+            ],404);
         }
 
         $categoryMonthlyBudget = DB::table('categories')
@@ -54,7 +62,7 @@ class CategoryBudgetController extends Controller
         ->first();
         return response([
             'category_monthly_budget' => $categoryMonthlyBudget
-        ]);
+        ],200);
     }
 
      /**
@@ -160,32 +168,29 @@ class CategoryBudgetController extends Controller
                'amount' => 'required'
            ]);
            if($validator->fails()){
-               return response(['error' => $validator->errors()]);
+               return response(['error' => $validator->errors()],400);
            }
            $category = Category::where('id','=',$request->category_id)->first();
            $monthlyBudget = MonthlyBudget::where('id','=',$request->monthly_budget_id)->first();
            
            if (!$category) {
                return response([
-                   'code' => '404',
                    'error' => 'category not found'
-               ]);
+               ],404);
            }
    
            if (!$monthlyBudget) {
                return response([
-                   'code' => '404',
                    'error' => 'monthlyBudget not found'
-               ]);
+               ],404);
            }
    
           $CategoryMonthlyBudget = CategoryMonthlyBudget::create($data);
    
            return response([
-               'code' => 200,
                'message' => 'Category monthly budget created',
                'category_monthly_budget' => $CategoryMonthlyBudget
-           ]);
+           ],200);
        }
 
         /**
@@ -277,17 +282,16 @@ class CategoryBudgetController extends Controller
                'amount' => 'required'
            ]);
            if($validator->fails()){
-               return response(['error' => $validator->errors()]);
+               return response(['error' => $validator->errors()],400);
            }
            $categoryMonthlyBudget = CategoryMonthlyBudget::find($id);
            if ($categoryMonthlyBudget) {
                $categoryMonthlyBudget->update($data);
-               return response(['message' => 'updated successfully','category_monthly_budget' => $categoryMonthlyBudget]);
+               return response(['message' => 'updated successfully','category_monthly_budget' => $categoryMonthlyBudget],200);
            }
            return response([
-               'code' => '404',
                'error' => 'category Monthly Budget not found'
-           ]);
+           ],404);
        }
     /**
         * @OA\Delete(
@@ -336,11 +340,10 @@ class CategoryBudgetController extends Controller
            $categoryMonthlyBudget = CategoryMonthlyBudget::find($id);
            if ($categoryMonthlyBudget) {
                $categoryMonthlyBudget->delete();
-               return response(['message' => 'category Monthly Budget deleted successfully']);
+               return response(['message' => 'category Monthly Budget deleted successfully'],200);
            }
            return response([
-               'code' => '404',
                'error' => 'category Monthly Budget not found'
-           ]);
+           ],404);
        } 
 }
