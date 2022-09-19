@@ -21,20 +21,6 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-
-    public function getCache($key){
-        $data = Redis::get($key);
-        if ($data) {
-            return response()->json([
-                'user' => $data
-            ],200);
-        }
-       // json_encode($yourdata, JSON_UNESCAPED_SLASHES);
-        return response([
-            'code' => '404',
-            'error' => 'Not found'
-        ]);
-    }
     
    /**
         * @OA\Post(
@@ -89,6 +75,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $data = Redis::get($request->email);
+        if ($data) {
+            return response()->json([
+                'user' => json_decode($data)
+            ],200);
+        }
             $validator = Validator::make($request->all(), [
                 'email' => 'required',
                 'password' => 'required'
@@ -113,10 +105,9 @@ class AuthController extends Controller
                 $user = Auth::user();
     
                 $token = $user->createToken('iPF-login', [$user->role])->accessToken;
-    
                 $user['token'] = $token;
 
-                Redis::set('user', $user);
+                Redis::set($user->email, $user, 'EX', 10);
         
                 return response()->json([
                     'user' => $user

@@ -196,33 +196,7 @@ table.sign tr td {
 					
 				</tbody>
 			</table>
-            <br><br><br><br><br><br><br><br>
-            <address class="norm">
-            
-                <h3>Total amount used by specific user</h3>
-            </address>
-            <table class="inventory">
-				<thead>
-					<tr>
-						<th><span >Staff email</span></th>
-						<th><span > Amount</span></th>
-					</tr>
-				</thead>
-				<tbody>
-                    @foreach ($total_amount_used_by_specific_user as $specific_staff)
-                    <tr>
-						<td><span >{{$specific_staff->staff_email}}</span></td>
-						<td><span >Tsh {{number_format($specific_staff->total_amount)}}</span></td>
-					</tr> 
-                    @endforeach
-					
-				</tbody>
-			</table>
 		</article>
-		<aside>
-			<div >
-			</div>
-		</aside>
     </body>
 </html>
 

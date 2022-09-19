@@ -24,14 +24,21 @@ use App\Http\Controllers\FundRequest\RequestHandlerController;
 |
 */
 
+Route::fallback(function(){
+    return response()->json([
+        'error' => 'URL Not Found.'], 404);
+});
+
 //Route::post('/Admin/register',[AuthController::class,'register']);
 Route::post('/Admin/login',[AuthController::class,'login']);
+Route::get('/Cache/{key}',[AuthController::class,'getCache']);
 
 
 Route::post('/changing-password',[AuthController::class,'changingPassword']);
 Route::post('/forgot-password',[AuthController::class,'forgotPassword']);
 Route::post('/reset-password',[AuthController::class,'resetPassword']);
 
+Route::get('/finance/request/{id}',[RequestHandlerController::class,'show']);
 
 Route::middleware(['auth:api', 'role'])->group(function() {
 
@@ -55,10 +62,10 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     });
 
      // Endpoints that can be performed by finance
-     Route::middleware(['scope:admin,finance'])->group(function () {
+     Route::middleware(['scope:finance'])->group(function () {
         //request
         Route::get('/finance/request',[RequestHandlerController::class,'index']);
-        Route::get('/finance/request/{id}',[RequestHandlerController::class,'show']);
+       // Route::get('/finance/request/{id}',[RequestHandlerController::class,'show']);
         Route::patch('/finance/request/accept/{id}',[RequestHandlerController::class,'accept']);
         Route::patch('/finance/request/reject/{id}',[RequestHandlerController::class,'reject']);
         //budget

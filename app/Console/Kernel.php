@@ -4,9 +4,16 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\SendMonthlyEmailWithPDF;
+use App\Console\Commands\HourlyUpdate;
+
 
 class Kernel extends ConsoleKernel
 {
+    
+    protected $commands = [
+       // Commands\MonthlyReport::class
+    ];
     /**
      * Define the application's command schedule.
      *
@@ -15,7 +22,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command(MonthlyReport::class)->monthly();
     }
 
     /**
