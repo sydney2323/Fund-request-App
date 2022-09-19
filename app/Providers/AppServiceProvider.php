@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Client;
 use App\Traits\UUID;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Passport::ignoreMigrations();
+        Schema::defaultStringLength(191);
     }
 
     /**
