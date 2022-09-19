@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-$redis = new Predis\Client(getenv('REDIS_TLS_URL') . "?ssl[verify_peer_name]=0&ssl[verify_peer]=0");
+$redisUrl = parse_url(env('REDIS_URL'));
 
 return [
 
@@ -134,14 +134,12 @@ return [
         //     'database' => 0,
         // ],
         'client' => 'predis',
-        
-        'cluster' => false,
 
         'default' => [
-            'host' => env('REDIS_HOST'),
-            'port' => env('REDIS_PORT'),
-            'password' => env('REDIS_PASSWORD'),
-            'database' => 0,
+            'host' => $redisUrl['host'],
+            'password' => $redisUrl['pass'],
+            'port' => $redisUrl['port'],
+           
         ],
 
         'options' => [
