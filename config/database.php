@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Str;
 
-$redisUrl = parse_url(env('REDIS_URL'));
+//$redisUrl = parse_url(env('REDIS_URL'));
+$redisUrl = new Predis\Client(getenv('REDIS_TLS_URL') . "?ssl[verify_peer_name]=0&ssl[verify_peer]=0");
 
 return [
 
