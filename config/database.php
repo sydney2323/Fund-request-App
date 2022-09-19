@@ -131,12 +131,22 @@ return [
 
         //'client' => env('REDIS_CLIENT', 'predis'),
 
-        'client' => 'predis',
+        // 'client' => 'predis',
+
+        // 'default' => [
+        //     'host' => env('REDIS_HOST', 'localhost'),
+        //     'password' => env('REDIS_PASSWORD', null),
+        //     'port' => env('REDIS_PORT', 6379),
+        //     'database' => 0,
+        // ],
+
+        
+        'cluster' => false,
 
         'default' => [
-            'host' => env('REDIS_HOST', 'localhost'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
+            'host' => env('REDIS_HOST'),
+            'port' => env('REDIS_PORT'),
+            'password' => env('REDIS_PASSWORD'),
             'database' => 0,
         ],
 
