@@ -1,7 +1,7 @@
 
 
 <h1>iPF Fund Request</h1>
-This is REST API project tha help iPF staff to request fund to the accauntant whenever needed
+This is REST API project that help iPF staff to request fund, such as meal and Transport fee to the finance manager whenever needed
 
 ## Contents
 <ul>
